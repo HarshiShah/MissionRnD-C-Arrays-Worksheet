@@ -20,6 +20,35 @@ struct student {
 	int score;
 };
 
+void swap(struct student *s1, struct student *s2);
+void sort(struct student *students, int start, int end);
+
+
 void * scoresDescendingSort(struct student *students, int len) {
-	return NULL;
+	if (len <= 0 || students == NULL)
+		return NULL;
+	sort(students, 0, len);
+	return 0;
+
+}
+
+void sort(struct student *students, int start, int end){
+	if (end > start + 1){
+		int piv = students[start].score, left = start + 1, right = end;
+		while (left < right){
+			if (students[left].score > piv)
+				left++;
+			else
+				swap(&students[left], &students[--right]);
+		}
+		swap(&students[--left], &students[start]);
+		sort(students, start, left);
+		sort(students, right, end);
+	}
+}
+
+void swap(struct student *s1, struct student *s2){
+	struct student temp = *s1;
+	*s1 = *s2;
+	*s2 = temp;
 }
